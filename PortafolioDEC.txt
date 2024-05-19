@@ -1,0 +1,275 @@
+; Nombre: José Mauricio Chavarría González
+; Carnet: CG 92088
+
+; Resta de tres enteros 
+;Escriba un programa para restar tres enteros, usando sólo registros de 16 bits 
+
+
+
+section .data
+    mensaje db "Ingrese el primer entero: ", 0xA
+    longitud1 equ $ - mensaje
+    
+    mensaje2 db "Ingrese el segundo entero: ", 0xA
+    longitud2 equ $ - mensaje2
+    
+    mensaje3 db "Ingrese el tercer entero: ", 0xA
+    longitud3 equ $ - mensaje3
+    
+    resultado db "El resultado de la resta es: ", 0xA
+    longitud_res equ $ - resultado
+    
+section .bss
+    entero1 resw 1
+    entero2 resw 1
+    entero3 resw 1
+    resta resw 1
+
+section .text
+    global _start
+    
+_start:
+    ; Solicitar al usuario que ingrese el primer entero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, mensaje
+    mov edx, longitud1
+    int 0x80
+
+    ; Leer el primer entero ingresado por el usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, entero1
+    mov edx, 2
+    int 0x80
+
+    ; Solicitar al usuario que ingrese el segundo entero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, mensaje2
+    mov edx, longitud2
+    int 0x80
+
+    ; Leer el segundo entero ingresado por el usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, entero2
+    mov edx, 2
+    int 0x80
+
+    ; Solicitar al usuario que ingrese el tercer entero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, mensaje3
+    mov edx, longitud3
+    int 0x80
+
+    ; Leer el tercer entero ingresado por el usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, entero3
+    mov edx, 2
+    int 0x80
+
+    ; Realizar la resta de los tres enteros
+    mov ax, [entero1]
+    sub ax, [entero2]
+    sub ax, [entero3]
+    mov [resta], ax
+
+    ; Mostrar el resultado de la resta
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, resultado
+    mov edx, longitud_res
+    int 0x80
+
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, resta
+    mov edx, 6 ; Longitud de un número entero de 16 bits en ASCII
+    int 0x80
+
+    ; Salir del programa
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+
+
+
+
+
+;Multiplicación.
+;Escriba un programa para multiplicar dos números enteros, usando registros de 8 bits
+
+
+
+section .data
+    mensaje1 db "Ingrese el primer número: ", 0xA
+    longitud1 equ $ - mensaje1
+    
+    mensaje2 db "Ingrese el segundo número: ", 0xA
+    longitud2 equ $ - mensaje2
+    
+    resultado db "El resultado de la multiplicación es: ", 0xA
+    longitud_res equ $ - resultado
+    
+section .bss
+    num1 resb 1
+    num2 resb 1
+    multiplicacion resb 1
+
+section .text
+    global _start
+    
+_start:
+    ; Solicitar al usuario que ingrese el primer número
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, mensaje1
+    mov edx, longitud1
+    int 0x80
+
+    ; Leer el primer número ingresado por el usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, num1
+    mov edx, 1
+    int 0x80
+
+    ; Solicitar al usuario que ingrese el segundo número
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, mensaje2
+    mov edx, longitud2
+    int 0x80
+
+    ; Leer el segundo número ingresado por el usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, num2
+    mov edx, 1
+    int 0x80
+
+    ; Realizar la multiplicación de los dos números
+    mov al, [num1]
+    mul byte [num2]
+    mov [multiplicacion], al
+
+    ; Mostrar el resultado de la multiplicación
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, resultado
+    mov edx, longitud_res
+    int 0x80
+
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, multiplicacion
+    mov edx, 1
+    int 0x80
+
+    ; Salir del programa
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+
+
+
+
+
+; División.
+; Escriba un programa para dividir dos números enteros, usando registros de 32 bits 
+
+section .data
+    mensaje1 db "Ingrese el dividendo: ", 0xA
+    longitud1 equ $ - mensaje1
+    
+    mensaje2 db "Ingrese el divisor: ", 0xA
+    longitud2 equ $ - mensaje2
+    
+    resultado db "El resultado de la división es: ", 0xA
+    longitud_res equ $ - resultado
+    
+    error_division db "¡Error! El divisor no puede ser cero.", 0xA
+    longitud_error equ $ - error_division
+    
+section .bss
+    dividendo resd 1
+    divisor resd 1
+    division resd 1
+
+section .text
+    global _start
+    
+_start:
+    ; Solicitar al usuario que ingrese el dividendo
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, mensaje1
+    mov edx, longitud1
+    int 0x80
+
+    ; Leer el dividendo ingresado por el usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, dividendo
+    mov edx, 4
+    int 0x80
+
+    ; Solicitar al usuario que ingrese el divisor
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, mensaje2
+    mov edx, longitud2
+    int 0x80
+
+    ; Leer el divisor ingresado por el usuario
+    mov eax, 3
+    mov ebx, 0
+    mov ecx, divisor
+    mov edx, 4
+    int 0x80
+
+    ; Verificar si el divisor es cero
+    cmp dword [divisor], 0
+    je divisor_cero
+
+    ; Realizar la división de los dos números
+    mov eax, dword [dividendo]
+    cdq  ; extiende el signo de eax para que edx:eax sea el número extendido
+    idiv dword [divisor]
+    mov [division], eax
+
+    ; Mostrar el resultado de la división
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, resultado
+    mov edx, longitud_res
+    int 0x80
+
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, division
+    mov edx, 4
+    int 0x80
+
+    ; Salir del programa
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+
+divisor_cero:
+    ; Mostrar mensaje de error si el divisor es cero
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, error_division
+    mov edx, longitud_error
+    int 0x80
+
+    ; Salir del programa
+    mov eax, 1
+    xor ebx, ebx
+    int 0x80
+
+
